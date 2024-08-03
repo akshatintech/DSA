@@ -4,12 +4,16 @@ class Solution {
         if(target.length != arr.length){
             return false;
         }
-        Arrays.sort(target);
-        Arrays.sort(arr);
-        for(int i = 0;i< arr.length ; i++){
-            if(target[i] != arr[i]){
+        HashMap<Integer , Integer> map = new HashMap<>();
+        for(int num : target){
+            map.put(num , map.getOrDefault(num ,0) +1);
+        }
+
+        for(int num : arr){
+            if(!map.containsKey(num) || map.get(num) ==0){
                 return false;
             }
+            map.put(num , map.get(num)-1);
         }
         return true;
     }
