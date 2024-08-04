@@ -1,34 +1,30 @@
 class Solution {
+    // Function to swap elements in the array
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    
     public int firstMissingPositive(int[] nums) {
-        HashMap<Integer,Integer> map=new HashMap<>();
-        int count=1;
-        for(int i:nums){
-            map.put(i,count);
-            count++;
-        }
-        Arrays.sort(nums);
-        int missing=0;
+        int n = nums.length;
         
-        //Yestcase:[7,8,9,11,12]
-        if(nums[0]>1){
-            return 1;
+        // Place each positive integer i at index i-1 if possible
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
+                swap(nums, i, nums[i] - 1);
+            }
         }
         
-        for(int i=0;i<nums.length;i++){
-             if(nums[i]>=0){
-                missing=nums[i]+1;
-                if(!map.containsKey(missing)){
-                    return missing;
-                }
-             }
-             //Testcase like [-5], [-1,-2]
-             if(nums[i]<0){
-                 missing=1;
-                 if(!map.containsKey(missing)){
-                    return missing;
-                }
-             }
+        // Find the first missing positive integer
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
         }
-        return missing;
+        
+        // If all positive integers from 1 to n are present, return n + 1
+        return n + 1;
     }
 }
+
