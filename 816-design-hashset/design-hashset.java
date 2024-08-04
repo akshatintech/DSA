@@ -1,20 +1,36 @@
 class MyHashSet {
-    private boolean[] mp;
-
+    int size = 1000032;
+    int[] hashSet;
     public MyHashSet() {
-        mp = new boolean[1000001];
-        Arrays.fill(mp, false);
+        hashSet = new int[size / 32];
     }
-
+    
     public void add(int key) {
-        mp[key] = true;
+        hashSet[getIdx(key)] |= getMask(key);
     }
-
+    
     public void remove(int key) {
-        mp[key] = false;
+        hashSet[getIdx(key)] &= (~getMask(key));
+    }
+    
+    public boolean contains(int key) {
+        return (hashSet[getIdx(key)]&getMask(key)) != 0;
     }
 
-    public boolean contains(int key) {
-        return mp[key];
+    private int getIdx(int key){
+        return key / 32;
+    }
+
+    private int getMask(int key){
+        key %= 32;
+        return (1 << key);
     }
 }
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet obj = new MyHashSet();
+ * obj.add(key);
+ * obj.remove(key);
+ * boolean param_3 = obj.contains(key);
+ */
