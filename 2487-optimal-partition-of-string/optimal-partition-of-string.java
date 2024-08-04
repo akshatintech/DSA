@@ -1,21 +1,21 @@
 class Solution {
     public int partitionString(String s) {
-        String ans = "";
+        HashSet<Character> set = new HashSet<>(); 
         int count= 0;
         for(int i = 0; i< s.length() ; i++){
-            String ch = String.valueOf(s.charAt(i));
-            if(!ans.contains(ch)){
-                ans += s.charAt(i);
+            char ch = s.charAt(i);
+            if(!set.contains(ch)){
+                set.add(ch);
             }
             else{
-                System.out.println(ans);
-                ans= "";
+               
+                set.clear();
                 i--;
                 count++;
 
             }
         }
-        if(!ans.equalsIgnoreCase("")){
+        if(!set.isEmpty()){
             count++;
         }
         return count;
