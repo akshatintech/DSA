@@ -1,30 +1,28 @@
 class Solution {
     public int equalSubstring(String s, String t, int maxCost) {
-        int len = s.length();
-        int[] cost = new int[len];
 
-        // Calculate the cost array
-        for (int i = 0; i < len; i++) {
-            cost[i] = Math.abs(s.charAt(i) - t.charAt(i));
-        }
-
-        int sum = 0;
+        int len= s.length();
         int left = 0;
+        int right =0;
+        int sum =0;
         int maxLength = 0;
 
-        for (int right = 0; right < len; right++) {
-            sum += cost[right];
+        while(right < len){
 
-            // If the current window exceeds maxCost, shrink it from the left
-            while (sum > maxCost) {
-                sum -= cost[left];
+            sum += Math.abs(s.charAt(right) - t.charAt(right))   ;
+
+            while(sum > maxCost){
+                sum -= Math.abs(s.charAt(left) -t.charAt(left));
                 left++;
             }
-
-            // Update the maximum length of the valid window
+            // Calculate the max length of the valid window
             maxLength = Math.max(maxLength, right - left + 1);
+
+            // Expand the window to the right
+            right++;
         }
 
         return maxLength;
+        
     }
 }
