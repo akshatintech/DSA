@@ -1,0 +1,38 @@
+package com.leetcode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+
+public class Solution {
+	public static void main(String[] args) {
+	int n = 5;
+	
+	int[] arr = new int[]{23,4,5,6,1,12,73,6,23,84,69};
+	int ans = fibo(n);
+	System.out.println(ans);
+	
+		
+	}
+	public static int fibo(int n ) {
+		if(n==1 || n==2) {
+			return 1;
+		}
+		
+		return fibo(n-1) + fibo(n-2);
+	
+	}
+
+	
+	
+	
+	
+
+}
+	
+	
