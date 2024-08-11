@@ -8,12 +8,12 @@ class Solution {
 
         Map<Character , Integer> map = new HashMap<>();
 
-        //Store the characters in the map
+        // We first Store the characters in the map
         for(char ch: t.toCharArray()){
             map.put(ch , map.getOrDefault(ch , 0) +1);
         }
 
-        int requiredCount = t.length();
+        int requiredCount = t.length();     //This is used to track if we still need to expand the window
         int i =0;
         int j= 0;
 
@@ -21,11 +21,11 @@ class Solution {
         int start_i = 0;
 
 
-        while(j < n){
+        while(j < n){       //Start with the window
             char ch= s.charAt(j);
 
             if(map.containsKey(ch) && map.get(ch) > 0){
-                requiredCount--;
+                requiredCount--;            //If the map already contains the key and we find we reduce the count needed
             }
 
             map.put(ch , map.getOrDefault(ch , 0) -1);      //Reduce the count from map 
@@ -40,7 +40,7 @@ class Solution {
                 char startChar = s.charAt(i);
                 map.put(startChar , map.getOrDefault(startChar , 0) +1);
 
-                if(map.containsKey(startChar) && map.get(startChar) > 0){       //THis is the new StartChar
+                if(map.containsKey(startChar) && map.get(startChar) > 0){       //THis is the new StartChar and we check if we need the first char
                     requiredCount++;
                 }
 
