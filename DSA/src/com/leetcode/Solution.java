@@ -26,10 +26,11 @@ class Solution {
         String s1 = "weallloveyou";
         k =2;
         int[] nums = new int[]{1,2,3,1,2,3,1,2};
-        String s = "abcd";
-        String t = "cdef";
-        int maxCost = 3;
-       generateParenthesis(3);
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+
+        minWindow(s,t);
+
 
 
 
@@ -37,25 +38,30 @@ class Solution {
 
 
     }
-    public static List<String> generateParenthesis(int n) {
-        List<String> output = new ArrayList<>();
-        backtrack(output , "" , 0 , 0 , n);
-        return output;
+    public static String minWindow(String s, String t) {
+        int left = 0;
+        int right= 0;
+        int len = s.length();
+        String ans = s.substring(right);
+        while(right < len){
+            ans = s.substring(left , right);
+            for(int i = 0 ;i < t.length(); i++){
+                char ch =   t.charAt(i);
+                String str = String.valueOf(ch);
+                if(!ans.contains(str)){
+                    right++;
+                    break;
+                }
+                if(i == t.length()-1){
+                    left++;
+                }
+            }
+        }
+        return "";
     }
 
-    public  static void backtrack(List<String> output_arr , String current_string , int open , int close , int max){
-        if(current_string.length() == max*2){
-            output_arr.add(current_string);
-        }
 
-        if(open < max){
-            backtrack(output_arr , current_string + "(" , open+1 , close , max);
-        }
 
-        if(close < open){
-            backtrack(output_arr , current_string + ")" , open , close+1 , max);
-        }
-    }
 
 
 }
