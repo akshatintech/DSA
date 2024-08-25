@@ -1,56 +1,51 @@
-/*
-// Definition for a Node.
-class Node {
-    int val;
-    Node next;
-    Node random;
 
-    public Node(int val) {
-        this.val = val;
-        this.next = null;
-        this.random = null;
-    }
-}
-*/
 
 class Solution {
     public Node copyRandomList(Node head) {
-        if(head == null){
+        if (head == null) {
             return null;
         }
 
-        HashMap<Node , Node> map =new HashMap<>();
         Node curr = head;
-        Node prev =null;
-        Node newHead = null;
 
-        while(curr != null){
-            Node temp = new Node(curr.val);
-            map.put(curr , temp);
-
-            if(newHead == null){
-                newHead = temp;
-                prev = newHead;
-            }
-            else{
-                prev.next= temp;
-                prev = temp;
-            }
-            curr = curr.next;
+        while (curr != null) {
+            Node currNext = curr.next;
+            curr.next = new Node(curr.val);
+            curr.next.next = currNext;
+            curr = currNext;
         }
 
+        // Deep copy of random pointers
         curr = head;
-        Node newCurr = newHead;
-        while(curr != null){
-            if(curr.random == null){
-                newCurr.random = null;
+        while (curr != null && curr.next != null) {
+            if (curr.random == null) {
+                curr.next.random = null;
+            } else {
+                curr.next.random = curr.random.next;
             }
-            else{
-                newCurr.random = map.get(curr.random);
+            curr = curr.next.next;
+        }
+
+        // Deep copy of next pointers and recovering old linked list
+        Node newHead = head.next;
+        Node newCurr = newHead;
+        curr = head;
+
+        while (curr != null && newCurr != null) {
+            if (curr.next != null) {
+                curr.next = curr.next.next;
+            } else {
+                curr.next = null;
             }
 
-            newCurr = newCurr.next;
+            if (newCurr.next != null) {
+                newCurr.next = newCurr.next.next;
+            } else {
+                newCurr.next = null;
+            }
+
             curr = curr.next;
+            newCurr = newCurr.next;
         }
 
         return newHead;
