@@ -14,27 +14,20 @@
  * }
  */
 class Solution {
+    public int sum = 0;
     public int rangeSumBST(TreeNode root, int low, int high) {
     
-        return recursion(root , low , high )   ;
+        helper(root , low , high );
+        return sum;
     }
-
-    public int recursion(TreeNode root , int low , int high ){
+    public void helper(TreeNode root ,int low , int high){
         if(root == null){
-            return 0 ;
+            return ;
         }
-        int count = 0;
-        if(root.val >= low && root.val <= high){
-            count+= root.val;
-        
+        if(root.val <= high && root.val >= low ){
+            sum += root.val;
         }
-        if(root.val < high){
-            count += recursion(root.right , low , high );
-        }
-        if(root.val > low){
-            count += recursion(root.left , low , high );
-        }
-        return count;
-        
+        helper(root.left , low , high );
+        helper(root.right , low , high );
     }
 }
