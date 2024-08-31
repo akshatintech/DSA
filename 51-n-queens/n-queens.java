@@ -1,76 +1,70 @@
 class Solution {
-
-    private List<List<String>> result = new ArrayList<>();
     public List<List<String>> solveNQueens(int n) {
-        if(n == 0){
-            return result;
-        }
-
-        List<String> board = new ArrayList<>();
-        //For n =3
-        for (int i = 0; i < n; i++) {
-            StringBuilder row = new StringBuilder();
-            for (int j = 0; j < n; j++) {
-                row.append('.');
-            }
-            board.add(row.toString());
-        }
-
-        int startRow = 0;
-        HashSet<Integer> cols = new HashSet<>();
-        HashSet<Integer> diags = new HashSet<>();
-        HashSet<Integer> antiDiags = new HashSet<>();
-        solve(board , startRow , cols , diags , antiDiags);
-
-        return result;
+        List < List < String >> queen =new ArrayList<>();
+        char[][] board = new char[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                board[i][j] = '.';
+        dfs(0, board, queen);
+        return queen;
     }
 
-    private void solve(List<String> board , int row , HashSet<Integer> cols ,HashSet<Integer> diags , HashSet<Integer> antiDiags ){
+    // public static List < List < String >> solveNQueen(int n) {
+    //     List < List < String >> res = new ArrayList < List < String >> ();
+    //     return res;
+    // }
 
-        if(row == board.size()){
-            result.add(new ArrayList<>(board));
+
+    static void dfs(int col, char[][] board, List < List < String >> res) {
+        if (col == board.length) {
+            res.add(construct(board));
             return;
         }
 
-        /*
-         * For a square (i, j) : Diagonally (i-j) is constant Anti diagonally (i+j) is
-         * constant
-         * 
-         * We can use this to find which square (i, j) has a risk of being attacked
-         * by another queen placed already in 'diagonal', or 'anti-diagonal' or
-         * 'column'
-         */
-
-         for(int col = 0; col < board.size() ;col ++){
-            int diagId =row -col;
-            int antiDiagId = row + col;
+        for (int row = 0; row < board.length; row++) {
+            if (validate(board, row, col)) {
+                board[row][col] = 'Q';
+                dfs(col + 1, board, res);
+                board[row][col] = '.';
+            }
+        }
+    }
 
 
-            /*
-             * If the col, or diagonal or anti_diagonal are used means one of them has a
-             * Queen placed already which can attack, so look for other column
-             */
 
-             if(cols.contains(col) || diags.contains(diagId) || antiDiags.contains(antiDiagId)){
-                continue;
-             }
+    static boolean validate(char[][] board, int row, int col) {
+        int duprow = row;
+        int dupcol = col;
+        while (row >= 0 && col >= 0) {
+            if (board[row][col] == 'Q') return false;
+            row--;
+            col--;
+        }
+
+        row = duprow;
+        col = dupcol;
+        while (col >= 0) {
+            if (board[row][col] == 'Q') return false;
+            col--;
+        }
+
+        row = duprow;
+        col = dupcol;
+        while (col >= 0 && row < board.length) {
+            if (board[row][col] == 'Q') return false;
+            col--;
+            row++;
+        }
+        return true;
+    }
 
 
-             cols.add(col);
-             diags.add(diagId);
-             antiDiags.add(antiDiagId);
-
-             StringBuilder newRow = new StringBuilder(board.get(row));
-             newRow.setCharAt(col , 'Q');
-             board.set(row , newRow.toString());
-
-             solve(board , row +1, cols , diags , antiDiags);
-
-             cols.remove(col);
-             diags.remove(diagId);
-             antiDiags.remove(antiDiagId);
-            newRow.setCharAt(col, '.');
-            board.set(row, newRow.toString());
-         }
+    static List < String > construct(char[][] board) {
+        List < String > res = new LinkedList < String > ();
+        for (int i = 0; i < board.length; i++) {
+            String s = new String(board[i]);
+            res.add(s);
+        }
+        return res;
     }
 }
