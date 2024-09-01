@@ -10,8 +10,8 @@ class Solution {
             return t[i];
         }
 
-        int take = nums[i] + solve(nums, i + 2, n); // steals ith house and moves to i+2 (because we can't steal adjacent)
-        int skip = solve(nums, i + 1, n); // skips this house, now we can move to adjacent next house
+        int take = nums[i] + solve(nums, i + 2, n); 
+        int skip = solve(nums, i + 1, n); 
 
         return t[i] = Math.max(take, skip);
     }
