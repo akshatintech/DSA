@@ -1,24 +1,24 @@
 class Solution {
-    public int[] t = new int[101];
+    // this function is solution of House robber I. We just use it to solve House Robber II
+    public int solve(int[] nums, int l, int r) {
 
-    public int solve(int[] nums, int i, int n) {
-        if (i > n) {
-            return 0;
+        int prevPrev = 0, prev = 0;
+
+        for (int i = l; i <= r; i++) {
+            int skip = prev;
+            int take = nums[i] + prevPrev;
+
+            int temp = Math.max(skip, take);
+
+            prevPrev = prev;
+            prev = temp;
         }
 
-        if (t[i] != -1) {
-            return t[i];
-        }
-
-        int take = nums[i] + solve(nums, i + 2, n); 
-        int skip = solve(nums, i + 1, n); 
-
-        return t[i] = Math.max(take, skip);
+        return prev;
     }
 
     public int rob(int[] nums) {
         int n = nums.length;
-
         if (n == 1) {
             return nums[0];
         }
@@ -27,16 +27,9 @@ class Solution {
             return Math.max(nums[0], nums[1]);
         }
 
-        Arrays.fill(t, -1);
+        int take_first_house = solve(nums, 0, n - 2);
+        int skip_first_house = solve(nums, 1, n - 1);
 
-        // case-1 - Take first house 0th index wala house
-        int take_0th_index_house = solve(nums, 0, n - 2);
-
-        Arrays.fill(t, -1);
-
-        // case-2 - Take second house 1st index wala house
-        int take_1st_index_house = solve(nums, 1, n - 1);
-
-        return Math.max(take_0th_index_house, take_1st_index_house);
+        return Math.max(take_first_house, skip_first_house);
     }
 }
