@@ -1,23 +1,24 @@
 class Solution {
-    public int rob(int[] nums) {
-        if (nums == null || nums.length == 0) {
+    public int[] t = new int[101];
+
+    public int solve(int[] nums, int i, int n) {
+        if (i >= n) {
             return 0;
         }
 
-        int n = nums.length;
-        if (n == 1) {
-            return nums[0];
+        if (t[i] != -1) {
+            return t[i];
         }
-        int[] dp = new int[n];
-         dp[0] = nums[0]; 
-         dp[1] =  Math.max(nums[0], nums[1]);
 
+        int take = nums[i] + solve(nums, i + 2, n); // steals ith house and moves to i+2 (because we can't steal adjacent)
+        int skip = solve(nums, i + 1, n); // skips this house, now we can move to adjacent next house
 
-         for(int i = 2; i< n ;i++){
-            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
-         }
+        return t[i] = Math.max(take, skip);
+    }
 
-         return dp[n-1];
-        
+    public int rob(int[] nums) {
+        int n = nums.length;
+        Arrays.fill(t, -1);
+        return solve(nums, 0, n);
     }
 }
