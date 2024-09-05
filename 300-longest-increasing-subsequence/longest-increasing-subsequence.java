@@ -1,37 +1,22 @@
+//Approach-2 (Bottom Up)
+//T.C : O(n^2)
 class Solution {
-    Integer[][] dp = new Integer[2501][2501];  // Max size of nums is 2500 as per the constraint
-
     public int lengthOfLIS(int[] nums) {
-        for (Integer[] row : dp) {
-            Arrays.fill(row, -1);  // Fill the 2D array with -1
-        }
-        return helper(nums, -1, 0);  // Start with no previous index (-1) and at index 0
-    }
+        int n  = nums.length;
 
-    public int helper(int[] nums, int prevIndex, int index) {
-        if (index == nums.length) {
-            return 0;  // Base case: reached the end of the array
-        }
+        int[] dp = new int[n];
+        int ans = 1;
+        Arrays.fill(dp , 1);
 
-        if (prevIndex != -1 && dp[prevIndex][index] != -1) {
-            return dp[prevIndex][index];  // Use memoized result if available
-        }
-
-        // Option 1: include the current element if it is larger than the previous element
-        int include = 0;
-        if (prevIndex == -1 || nums[index] > nums[prevIndex]) {
-            include = 1 + helper(nums, index, index + 1);
+        for(int i=1 ;i < n; i++ ){
+            for(int j =0; j < i ;j ++){
+                if(nums[i] > nums[j]){
+                    dp[i] = Math.max(dp[j]+1 ,dp[i]);
+                    ans = Math.max(dp[i] , ans);
+                }
+            }
         }
 
-        // Option 2: exclude the current element
-        int exclude = helper(nums, prevIndex, index + 1);
-
-        // Store the result and return the maximum of both options
-        int result = Math.max(include, exclude);
-        if (prevIndex != -1) {
-            dp[prevIndex][index] = result;
-        }
-
-        return result;
+        return ans;
     }
 }
