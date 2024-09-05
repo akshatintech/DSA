@@ -17,22 +17,21 @@ class Solution {
             return dp[prevIndex][index];  // Use memoized result if available
         }
 
+        // Option 1: include the current element if it is larger than the previous element
         int include = 0;
         if (prevIndex == -1 || nums[index] > nums[prevIndex]) {
             include = 1 + helper(nums, index, index + 1);
         }
 
-        // Option 1: exclude the current element
+        // Option 2: exclude the current element
         int exclude = helper(nums, prevIndex, index + 1);
 
-        // Option 2: include the current element if it is larger than the previous element
-        
-
         // Store the result and return the maximum of both options
+        int result = Math.max(include, exclude);
         if (prevIndex != -1) {
-            dp[prevIndex][index] = Math.max(include, exclude);
+            dp[prevIndex][index] = result;
         }
 
-        return Math.max(include, exclude);
+        return result;
     }
 }
