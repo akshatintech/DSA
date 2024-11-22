@@ -14,34 +14,24 @@
  * }
  */
 class Solution {
-    public TreeNode buildTree(int[] inorder, int[] postorder) {
-        return buildTree(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
-
-    }
-
-    private TreeNode buildTree(int[] inorder , int inStart , int inEnd , int[] postorder ,
-    int postStart , int postEnd){
-        if(inStart > inEnd || postStart > postEnd){
+    private TreeNode buildTree(int[] inorder,int is,int ie, int[] postorder,int ps,int pe,Map<Integer,Integer> hm) {
+        if(ps>pe||is>ie)
             return null;
-        }
-
-        int rootVal = postorder[postEnd];
-        TreeNode root = new TreeNode(rootVal);
-
-        //Finding the index of the root node in Inorder Traversal
-        int rootIndex = 0;
-        for(int i = inStart ; i <= inEnd ;i++){
-            if(inorder[i] == rootVal){
-                rootIndex = i;
-                break;
-            }
-        }
-
-        int leftSize = rootIndex - inStart;
-        int rightSize = inEnd - rootIndex;
-        root.left = buildTree(inorder , inStart , rootIndex -1 , postorder , postStart , postStart + leftSize -1);
-        root.right = buildTree(inorder , rootIndex+1 , inEnd , postorder , postEnd - rightSize , postEnd -1);
-
+        TreeNode root=new TreeNode(postorder[pe]);
+        int inRoot=hm.get(postorder[pe]);
+        int numsleft=inRoot-is;
+        root.left=buildTree(inorder,is,inRoot-1,postorder,ps,ps+numsleft-1,hm);
+        root.right=buildTree(inorder,inRoot+1,ie,postorder,ps+numsleft,pe-1,hm);
         return root;
+    }
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(inorder==null||postorder==null || inorder.length!= postorder.length)
+            return null;
+        Map<Integer,Integer> hm=new HashMap<>();
+        for(int i=0;i<inorder.length;i++)
+        {
+            hm.put(inorder[i],i);
+        }
+        return buildTree(inorder,0,inorder.length-1,postorder,0,postorder.length-1,hm);  
     }
 }
