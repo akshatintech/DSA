@@ -22,7 +22,7 @@ class Solution {
 
     public void helper(TreeNode root , List<List<Integer>> ans){
         if(root == null){
-            return;
+            return ;
         }
 
 
@@ -30,9 +30,9 @@ class Solution {
         q.offer(root);
 
         while(!q.isEmpty()){
-            int size= q.size();
+            int size = q.size();
             List<Integer> temp = new ArrayList<>();
-            for(int i = 0 ;i < size ;i++){
+            for(int i = 0;i < size ;i++){
                 TreeNode currNode = q.poll();
                 temp.add(currNode.val);
                 if(currNode.left != null){
