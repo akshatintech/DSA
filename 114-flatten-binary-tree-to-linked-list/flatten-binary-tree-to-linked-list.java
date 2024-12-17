@@ -15,21 +15,19 @@
  */
 class Solution {
     public void flatten(TreeNode root) {
-       TreeNode prev = null;
-        flattenTree(root , prev);
-
+        TreeNode prev = null;
+        helper(root , prev);
     }
 
-    public TreeNode flattenTree(TreeNode root , TreeNode prev){
 
+    public TreeNode  helper(TreeNode root , TreeNode prev){
         if(root == null){
             return prev;
         }
-        prev = flattenTree(root.right , prev );
-         prev = flattenTree(root.left , prev );
+        prev = helper(root.right , prev);
+        prev = helper(root.left , prev);
         root.right = prev;
         root.left = null;
         return root;
-
     }
 }
