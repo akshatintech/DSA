@@ -1,28 +1,24 @@
 class Solution {
     public int maxArea(int[] height) {
-        int n = height.length;
-        int left = 0;
-        int right = n-1;
-        int area = 0;
-        int maxArea = 0;
-        while(left < right){
-            int rodA = height[left];
-            int rodB = height[right];
-            int len = right - left;
-            int width = Math.min(rodA , rodB);
-            if(rodA > rodB){
-                area=len * (width);
-                right--;
-            }
-            else{
-                area = len * (width);
+        int length = 0;
 
-                left++;
+        int n = height.length;
+        int right;
+        int left = 0;
+        int max_area = 0;
+             right = n-1;
+            while(left < right){
+                int area = Math.min(height[left] , height[right]) * (right - left);
+                max_area = Math.max(area , max_area);
+                if(height[left] < height[right]){
+                    left++;
+                }
+                else{
+                    right--;
+                }
             }
-            maxArea = Math.max(area , maxArea);
-        }
-        return maxArea;
-    }
+
+            return max_area;
         
-    
+    }
 }
