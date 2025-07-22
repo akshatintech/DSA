@@ -1,0 +1,5 @@
+/* Write your PL/SQL query statement below */
+DELETE FROM PERSON P1 WHERE EXISTS(
+    SELECT 1 FROM PERSON P2 WHERE P1.EMAIL= P2.EMAIL
+    AND P1.ID > P2.ID
+);
