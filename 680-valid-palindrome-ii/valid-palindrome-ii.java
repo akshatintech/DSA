@@ -1,28 +1,22 @@
 class Solution {
     public boolean validPalindrome(String s) {
-        s = s.toLowerCase();
+        int start = 0, end = s.length() - 1;
 
-        int left = 0;
-        int right = s.length()-1;
-        int count = 0;
-        while(left < right){
-            if(s.charAt(left) != s.charAt(right)){
-                return(isPalindrome(s , left+1 , right) || isPalindrome(s, left , right-1));
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                // Try skipping either character
+                return isPalindrome(s, start + 1, end) || isPalindrome(s, start, end - 1);
             }
-            left++;
-            right--;
+            start++;
+            end--;
         }
 
-
-        return true;
+        return true; // Already a palindrome
     }
-    private boolean isPalindrome(String s , int left , int right){
-        while(left < right){
-            if(s.charAt(left) != s.charAt(right)){
-                return false;
-            }
-            left++;
-            right--;
+
+    private boolean isPalindrome(String s, int start, int end) {
+        while (start < end) {
+            if (s.charAt(start++) != s.charAt(end--)) return false;
         }
         return true;
     }
