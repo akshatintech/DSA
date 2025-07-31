@@ -1,22 +1,30 @@
-import java.util.*;
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        
 
-public class Solution {
-    public static List<Integer> majorityElement(int[] nums) {
-        int n = nums.length;
-        HashMap<Integer, Integer> map = new HashMap<>();
+        Map<Integer , Integer> map = new HashMap<>();
 
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
+        for(int i = 0;i < nums.length ;i++){
+            map.put(nums[i] ,map.getOrDefault(nums[i] , 0) +1);
         }
 
-        List<Integer> output = new ArrayList<>();
 
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getValue() > n / 3) {
-                output.add(entry.getKey());
+        List<Integer> majority = new ArrayList<>();
+        int threshold = nums.length /3;
+
+        //Iterate through the frequency map to identify majority elements
+        for(Map.Entry<Integer , Integer> entry : map.entrySet()){
+            int element = entry.getKey();
+            int count = entry.getValue();
+
+            //Check if the element count is greater than the threshold
+            if(count > threshold){
+                majority.add(element);
             }
         }
 
-        return output;
+        return majority;
+
+        
     }
 }
