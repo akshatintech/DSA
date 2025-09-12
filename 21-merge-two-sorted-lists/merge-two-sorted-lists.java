@@ -10,21 +10,34 @@
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode dummy = new ListNode(0);
-        ListNode cur = dummy;
+        ListNode dummyNode  = new ListNode(-1);
+        ListNode temp =  dummyNode;
 
-        while (list1 != null && list2 != null) {
-            if (list1.val <= list2.val) {
-                cur.next = list1;  // ✅ Corrected
+
+        //traverse both the lists simultaneouslt
+        while(list1 != null && list2 != null){
+            //we will compare the elements of both the list and change the nodes
+            if(list1.val <= list2.val){
+                temp.next = list1;
                 list1 = list1.next;
-            } else {
-                cur.next = list2;
+            }
+            else{
+                temp.next = list2;
                 list2 = list2.next;
             }
-            cur = cur.next;
-        }
 
-        cur.next = (list1 != null) ? list1 : list2;
-        return dummy.next;
+            //move the temp pointer
+            temp = temp.next;
+        }
+            //If there is any difference in the size we will just add them
+            if(list1 != null){
+                temp.next= list1;
+            }
+            if(list2 != null){
+                temp.next= list2;
+            }
+        
+
+        return dummyNode.next;
     }
 }
